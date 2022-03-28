@@ -1,16 +1,16 @@
 <template>
   <el-card id="blogOverView">
 
-    <div style="position: absolute;right: 25%;width: 10%" @mouseenter="pEnter()" @mouseleave="pLeave()">
-      <span style="width: 5%" v-if="show&&(getStoreName()==name)" @click="editBlog(id)" title="编辑">
-          <el-link class="el-icon-edit-outline" :underline="false"></el-link>
-        </span>
-      <span style="width: 5%;margin-left: 1%;"
-            v-if="show&&(getStoreName()==name||getStoreRoles().indexOf('ADMIN')>-1)"
-            title="删除" @click="deleteBlog(id)">
-          <el-link class="el-icon-delete" :underline="false"></el-link>
-        </span>
-    </div>
+<!--    <div style="position: absolute;right: 25%;width: 10%" @mouseenter="pEnter()" @mouseleave="pLeave()">-->
+<!--      <span style="width: 5%" v-if="show&&(getStoreName()==name)" @click="editBlog(id)" title="编辑">-->
+<!--          <el-link class="el-icon-edit-outline" :underline="false"></el-link>-->
+<!--        </span>-->
+<!--      <span style="width: 5%;margin-left: 1%;"-->
+<!--            v-if="show&&(getStoreName()==name||getStoreRoles().indexOf('ADMIN')>-1)"-->
+<!--            title="删除" @click="deleteBlog(id)">-->
+<!--          <el-link class="el-icon-delete" :underline="false"></el-link>-->
+<!--        </span>-->
+<!--    </div>-->
 
     <div @mouseenter="pEnter()" @mouseleave="pLeave()">
       <el-link :underline="false" @click="router(id)">

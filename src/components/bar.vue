@@ -134,7 +134,6 @@
           registerConfirmPwd: '',
           registerMail: '',
           registerMailCode: '',
-          registerInviteCode: ''
         },
         formLabelWidth: '0px',
         sendMailFlag: false
@@ -223,23 +222,11 @@
         const mail = this.form.registerMail;
         const _this = this;
         user.sendMail(mail).then(res => {
-          //成功调用接口后设置定时器，每隔600ms查询一次邮件状态
-          var intervalId = setInterval(function () {
-            user.getMailSendState(mail).then(res => {
-              //邮件状态发生改变时
-              if (res.data !== '0') {
-                //清除定时器
-                clearInterval(intervalId);
-                if (res.data === '1') {
-                  _this.$message.success('发送成功');
-                } else {
-                  _this.$message.error('发送失败');
-                }
-                _this.sendMailFlag = false;
-              }
-            });
-          }, 600);
-
+          if (res.code===200){
+            _this.$message.success('发送成功');
+          }else {
+            this.$message.error('发送失败');
+          }
         }).catch(() => {
           this.sendMailFlag = false;
           this.$message.error('发送失败');
@@ -248,7 +235,7 @@
       userRegister() {//用户注册
         //判断是否输入字段
         if (this.form.registerName.length <= 0 || this.form.registerPwd.length <= 0 || this.form.registerConfirmPwd.length <= 0 ||
-          this.form.registerMail.length <= 0 || this.form.registerMailCode.length <= 0 || this.form.registerInviteCode.length <= 0) {
+          this.form.registerMail.length <= 0 || this.form.registerMailCode.length <= 0) {
           this.$message({
             message: '字段不符合规范',
             type: 'error'
@@ -279,7 +266,7 @@
           return;
         }
 
-        user.register(this.form.registerName, this.form.registerPwd, this.form.registerMail, this.form.registerMailCode, this.form.registerInviteCode).then(res => {
+        user.register(this.form.registerName, this.form.registerPwd, this.form.registerMail, this.form.registerMailCode).then(res => {
           this.$message({
             message: '注册成功',
             type: 'success'
@@ -295,10 +282,8 @@
           path: '/searchBlog/' + this.searchTxt
         })
         this.searchTxt = '';//清空搜索框
-      },
-      tiaozhuan() {
-        window.location.href("http://localhost:8081")
       }
+
     }
   }
 </script>

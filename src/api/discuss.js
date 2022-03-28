@@ -45,9 +45,9 @@ export default {
       method: 'delete'
     })
   },
-  getUserNewDiscuss(){ //用户删除回复
+  getUserNewDiscuss(){ //用户最近评论
     return request({
-      url: '/discuss/userNewDiscuss',
+      url: '/comment/userNewDiscuss',
       method: 'get'
     })
   },

@@ -1,10 +1,10 @@
 <template>
   <div id="myBlogList">
     <div v-for="blog in blogList">
-      <blogOverView :id="blog.id" :title="blog.title" :body="blog.body" :time="getTime(blog.time)"
-                    :blogViews="blog.blogViews"
-                    :discussCount="blog.discussCount" :tags="catchTagName(blog.tags)"
-                    :name="blog.user.name"/>
+      <blogOverView :id="blog.id" :title="blog.title" :body="blog.content" :time="getTime(blog.time)"
+                    :blogViews="blog.views"
+                    :discussCount="blog.discussCount" :tags="blog.tags"
+                    :name="blog.userName"/>
     </div>
 
     <el-card class="box-card" style="margin: 20% " v-if="blogList.length <= 0">
@@ -52,13 +52,13 @@
       getTime(time) {//将时间戳转化为几分钟前，几小时前
         return date.timeago(time);
       },
-      catchTagName(tag) { //从tag对象数组中拿到tag.Name属性
-        var tagNames = [];
-        for (var i = 0; i < tag.length; i++) {
-          tagNames.push(tag[i].name)
-        }
-        return tagNames;
-      },
+      // catchTagName(tag) { //从tag对象数组中拿到tag.Name属性
+      //   var tagNames = [];
+      //   for (var i = 0; i < tag.length; i++) {
+      //     tagNames.push(tag[i])
+      //   }
+      //   return tagNames;
+      // },
       currentChange(currentPage) { //页码更改事件处理
         this.currentPage = currentPage;
         this.loadBlog();
@@ -66,9 +66,10 @@
       },
       loadBlog() { //加载数据
         blog.getMyBlog(this.currentPage, this.pageSize).then(responese => {
-          this.total = responese.data.total;
-          this.blogList = responese.data.rows;
+          this.total = responese.totalCount;
+          this.blogList = responese.data;
         });
+        console.log(this.blogList)
       }
     }
   }

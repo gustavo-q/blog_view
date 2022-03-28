@@ -17,7 +17,7 @@ export default {
   },
   deleteMessage(messageId) {
     return request({
-      url: '/message/' + messageId,
+      url: '/message/delMessage?messageId=' + messageId,
       method: 'delete'
     })
   }

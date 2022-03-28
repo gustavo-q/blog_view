@@ -12,7 +12,7 @@
       </p>
 
       <el-divider content-position="right">
-        <el-link :underline="false" class="el-icon-delete" v-if="getStoreRoles().indexOf('ADMIN') > -1"
+        <el-link :underline="false" class="el-icon-delete" v-if="getStoreRoles().indexOf(message.name) > -1"
                  @click="deleteMessage(message.id)"/>
       </el-divider>
     </div>
@@ -137,7 +137,7 @@
         });
       },
       getStoreRoles() { //获取store中存储的roles
-        return this.$store.state.roles;
+        return this.$store.state.name;
       },
       getTime(time) {//将时间戳转化为几分钟前，几小时前
         return date.timeago(time);

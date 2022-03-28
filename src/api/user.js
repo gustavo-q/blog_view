@@ -22,16 +22,14 @@ export default {
       data: JSON.stringify({email: email})
     })
   },
-  register(name, password, mail, mailCode, inviteCode) {
+  register(name, password, mail, mailCode) {
     return request({
-      url: '/user/register',
+      url: '/userLogin/register',
       method: 'post',
-      // header: 'Content-Type:application/x-www-form-urlencoded',
-      data: qs.stringify({
-        'name': name, 'password': password,
-        'mail': mail, 'mailCode': mailCode,
-        'inviteCode': inviteCode
-      })
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      data: JSON.stringify({email: mail,username:name,password:password,emailCode:mailCode})
     })
   },
   forgetPassword(userName, mailCode, newPassword,email) {
