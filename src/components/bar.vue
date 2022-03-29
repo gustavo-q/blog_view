@@ -8,7 +8,7 @@
           <el-menu-item index="1" route="/" style="margin-left: 25%">首页</el-menu-item>
           <el-menu-item index="3" style="margin-left: 2%" route="/message">留言板</el-menu-item>
           <el-menu-item index="5" style="margin-left: 2%" route="/announcement">本站公告</el-menu-item>
-          <el-menu-item index="6" style="margin-left: 2%" route="/about">关于</el-menu-item>
+          <el-menu-item index="6" style="margin-left: 2%" route="/about">关于本站</el-menu-item>
 
 
 <!--          <el-menu-item id="space" index="" @click="egg" class="hidden-xs-only"/>-->
@@ -85,7 +85,7 @@
 
 
           <el-submenu class="hidden-xs-only" index="4" v-if="this.$store.state.token!==''" :router="true">
-            <template slot="title">[&nbsp;&nbsp;{{a}}&nbsp;&nbsp;]</template>
+            <template slot="title"><span v-text="getName">[&nbsp;&nbsp;{{a}}&nbsp;&nbsp;]</span></template>
 
             <el-menu-item route="/myBlog" index="4-3">&nbsp;&nbsp;&nbsp;
               <i class="el-icon-s-home"></i>
@@ -159,6 +159,12 @@
         }
       },
     },
+    computed:{
+//这里需要把store 动态的数据放到computed里面才会同步更新 视图
+      getName(){
+        return this.$store.state.name
+      }
+    },
 
     methods: {
       handleSelect(key, keyPath) {
@@ -182,7 +188,7 @@
           });
           return;
         }
-        user.login(this.form.loginName, this.form.loginPwd).then(response => {
+          user.login(this.form.loginName, this.form.loginPwd).then(response => {
           this.form.loginPwd = ''
           console.log(response.data)
           this.$store.commit('login', response.data)//存储token

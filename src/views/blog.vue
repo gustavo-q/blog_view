@@ -38,7 +38,7 @@
           <img alt="打赏码" :src="userReward" width="250px" height="250px"/>
           <el-button type="text" slot="reference" icon="el-icon-trophy" round>写的不错，打赏一个</el-button>
         </el-popover>
-        <el-button type="text" :class="[like?'el-tyson-good-fill':'el-tyson-good']" @click="likeThis">
+        <el-button type="text" :class="[like==0?'el-tyson-good':'el-tyson-good-fill']" @click="likeThis">
           &nbsp;{{ this.like == 0 ? '点赞' : '已赞' }}&nbsp;{{ likeCount }}
         </el-button>
       </div>
@@ -47,48 +47,48 @@
       <el-divider/>
       <div id="discuss" class="hidden-xs-only" v-if="$store.state.token!==''">
 
-        <div style="width: 50%;margin-left: 2.5%;padding-top: 2%" v-if="getStoreName()!=''">
+        <div style="width: 50%;margin-left: 2.5%;padding-top: 2%" v-if="getStoreName()!==''">
           <el-input v-model="discussBody" placeholder="请输入评论内容" style="width: 40%" size="mini"></el-input>
-          <el-button type="primary" style="width: 10%" size="mini" @click="sendDiscuss">评论</el-button>
+          <el-button type="primary" style="width: 10%" size="mini" @click="sendDiscuss(0)">评论</el-button>
         </div>
 
         <!-- 评论部分 -->
         <div v-for="discuss in discussList" id="discussList">
           <p style="margin: -5px " @mouseenter="pEnter()" @mouseleave="pLeave()">
-            <el-button type="text">{{ discuss.user.name }}&nbsp;&nbsp;:</el-button>
-            <span style="margin-left: 10px">{{ discuss.body }}</span>
-            <span style="color: #909399;margin-left: 50px" class="el-icon-time">{{ getTime(discuss.time) }}</span>
+            <el-button type="text">{{ discuss.userName }}&nbsp;&nbsp;:</el-button>
+            <span style="margin-left: 10px">{{ discuss.content }}</span>
+            <span style="color: #909399;margin-left: 50px" class="el-icon-time">{{ getTime(discuss.createTime) }}</span>
             <el-button type="text" style="margin-left: 5%"
-                       v-if="(discuss.user.name==getStoreName()||(getStoreRoles().indexOf('ADMIN') > -1))&&replyFlag"
+                       v-if="((discuss.userName===getStoreName()||(getStoreRoles()===1)||getStoreName()===userName)&&discuss.isDelete===0)&&replyFlag"
                        @click="deleteDiscuss(discuss.id)">删除
             </el-button>
-            <el-button type="text" style="margin-left: 1%" @click="sendReply(discuss.id,null)"
-                       v-if="getStoreName()!=''&&replyFlag">回复
+            <el-button type="text" style="margin-left: 1%" @click="sendReply(discuss.id)"
+                       v-if="getStoreName()!=''&&discuss.isDelete===0&&replyFlag">回复
             </el-button>
 
           </p>
           <!-- 评论下的回复部分 -->
-          <p v-if="!(typeof(discuss.replyList) == 'undefined') && discuss.replyList.length>0"
-             v-for="reply in discuss.replyList" style="margin: -5px"
+          <p v-if="!(typeof(discuss.child) == 'undefined') && discuss.child.length>0"
+             v-for="reply in discuss.child" style="margin: -5px"
              @mouseenter="pEnter()" @mouseleave="pLeave()">
             <span style="margin-left: 5%" class="el-icon-arrow-right"></span>
-            <el-button type="text">{{ reply.user.name }}&nbsp;&nbsp;:</el-button>
+            <el-button type="text">{{ reply.userName }}&nbsp;&nbsp;:</el-button>
 
-            <span v-if="reply.reply !== null">回复:</span>
-            <el-button type="text" v-if="!(typeof(reply.reply) == 'undefined') && reply.reply !== null">
-              {{ reply.reply.user.name }}
-            </el-button>
+<!--            <span v-if="reply.reply !== null">回复:</span>-->
+<!--            <el-button type="text" v-if="!(typeof(reply.reply) == 'undefined') && reply.reply !== null">-->
+<!--              {{ reply.reply.userName }}-->
+<!--            </el-button>-->
 
-            <span style="margin-left: 10px">{{ reply.body }}</span>
-            <span style="color: #909399;margin-left: 50px" class="el-icon-time">{{ getTime(reply.time) }}</span>
+            <span style="margin-left: 10px">{{ reply.content }}</span>
+            <span style="color: #909399;margin-left: 50px" class="el-icon-time">{{ getTime(reply.createTime) }}</span>
 
             <el-button type="text" style="margin-left: 5%"
-                       v-if="(reply.user.name==getStoreName()||(getStoreRoles().indexOf('ADMIN') > -1))&&replyFlag"
-                       @click="deleteReply(reply.id)">删除
+                       v-if="(reply.userName===getStoreName()||(getStoreRoles()===1)||getStoreName()===userName)&&replyFlag"
+                       @click="deleteDiscuss(reply.id)">删除
             </el-button>
-            <el-button type="text" style="margin-left: 1%" @click="sendReply(discuss.id,reply.id)"
-                       v-if="getStoreName()!=''&&replyFlag">回复
-            </el-button>
+<!--            <el-button type="text" style="margin-left: 1%" @click="sendReply(discuss.id,reply.id)"-->
+<!--                       v-if="getStoreName()!=''&&replyFlag">回复-->
+<!--            </el-button>-->
           </p>
         </div>
 
@@ -193,19 +193,20 @@ export default {
 
       userLike.getBlogLikeCount(this.blogId).then(res => {
         this.likeCount = res.data;
+        console.log(this.likeCount)
       });
 
 
       //登录判断
       if (this.isLogin()) {
-        userLike.isUserLike(this.blogId,$store.state.id).then(res => {
+        userLike.isUserLike(this.blogId,this.$store.state.id).then(res => {
           this.like = res.data;
         });
 
         //评论显示
         discuss.getDiscussByBlogId(this.blogId, this.currentPage, this.pageSize).then(responese => {
-          this.total = responese.data.total;
-          this.discussList = responese.data.rows;
+          this.total = responese.totalCount;
+          this.discussList = responese.data;
         });
       };
 
@@ -245,6 +246,9 @@ export default {
 
     getStoreName() { //获取store中存储的name
       return this.$store.state.name;
+    },
+    getStoreId() { //获取store中存储的name
+      return this.$store.state.id;
     }
     ,
     getStoreRoles() { //获取store中存储的roles
@@ -259,7 +263,7 @@ export default {
       this.replyFlag = false
     }
     ,
-    sendReply(discussId, replyId) {  //发送回复
+    sendReply(discussId) {  //发送回复
       this.$prompt('请输入回复内容', '提示', {
         confirmButtonText: '回复',
         cancelButtonText: '取消'
@@ -271,7 +275,7 @@ export default {
           });
           return;
         }
-        reply.sendReply(discussId, value, replyId).then(res => {
+        discuss.sendDiscuss(this.blogId, value, discussId).then(res => {
           this.$message({
             type: 'success',
             message: '回复成功'
@@ -282,7 +286,7 @@ export default {
       });
     }
     ,
-    sendDiscuss() {  //发送评论
+    sendDiscuss(num) {  //发送评论
       if (this.discussBody.length <= 0) {
         this.$message({
           type: 'error',
@@ -291,7 +295,7 @@ export default {
         return;
       }
 
-      discuss.sendDiscuss(this.blogId, this.discussBody).then(res => {
+      discuss.sendDiscuss(this.blogId, this.discussBody,num).then(res => {
         this.$message({
           type: 'success',
           message: '评论成功'
@@ -307,16 +311,16 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        if (this.$store.state.roles.indexOf('ADMIN') > -1) {
-          //管理员
-          discuss.adminDeleteDiscuss(discussId).then(res => {
-            this.$message({
-              type: 'success',
-              message: '删除成功'
-            });
-            this.loadBlog();
-          })
-        } else {
+        // if (this.$store.state.roles.indexOf('ADMIN') > -1) {
+        //   //管理员
+        //   discuss.adminDeleteDiscuss(discussId).then(res => {
+        //     this.$message({
+        //       type: 'success',
+        //       message: '删除成功'
+        //     });
+        //     this.loadBlog();
+        //   })
+        // } else {
           //普通用户
           discuss.userDeleteDiscuss(discussId).then(res => {
             this.$message({
@@ -325,41 +329,49 @@ export default {
             });
             this.loadBlog();
           })
-        }
+        // }
 
 
       }).catch(() => {
+        this.$message({
+          type: 'error',
+          message: '删除失败'
+        });
       });
     }
     ,
-    deleteReply(replyId) {  //删除回复  判断是用户还是管理员 走不一样的api
-      this.$confirm('是否删除此回复?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        if (this.$store.state.roles.indexOf('ADMIN') > -1) {
-          //管理员
-          discuss.adminDeleteReply(replyId).then(res => {
-            this.$message({
-              type: 'success',
-              message: '删除成功'
-            });
-          })
-        } else {
-          //普通用户
-          discuss.userDeleteReply(replyId).then(res => {
-            this.$message({
-              type: 'success',
-              message: '删除成功'
-            });
-          })
-        }
-        this.loadBlog();
-      }).catch(() => {
-      });
-    }
-    ,
+    // deleteReply(replyId) {  //删除回复  判断是用户还是管理员 走不一样的api
+    //   this.$confirm('是否删除此回复?', '提示', {
+    //     confirmButtonText: '确定',
+    //     cancelButtonText: '取消',
+    //     type: 'warning'
+    //   }).then(() => {
+    //     // if (this.$store.state.roles.indexOf('ADMIN') > -1) {
+    //     //   //管理员
+    //     //   discuss.adminDeleteReply(replyId).then(res => {
+    //     //     this.$message({
+    //     //       type: 'success',
+    //     //       message: '删除成功'
+    //     //     });
+    //     //   })
+    //     // } else {
+    //       //普通用户
+    //       discuss.userDeleteReply(replyId).then(res => {
+    //         this.$message({
+    //           type: 'success',
+    //           message: '删除成功'
+    //         });
+    //       })
+    //     // }
+    //     this.loadBlog();
+    //   }).catch(() => {
+    //     this.$message({
+    //       type: 'error',
+    //       message: '删除失败'
+    //     });
+    //   });
+    // }
+    // ,
     back() {
       history.back()
     },

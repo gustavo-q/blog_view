@@ -4,21 +4,34 @@ import qs from 'qs';
 export default {
   getNewDiscuss() {
     return request({
-      url: '/discuss/newDiscuss',
+      url: '/comment/NewDiscuss',
       method: 'get'
     })
   },
-  getDiscussByBlogId(blogId, page, showCount) {
+  getUserNewDiscuss(){ //用户最近评论
     return request({
-      url: '/discuss/' + blogId + '/' + page + '/' + showCount,
+      url: '/comment/userNewDiscuss',
       method: 'get'
     })
   },
-  sendDiscuss(blogId, discussBody) {  //发送评论
+  getDiscussByBlogId(topicId, currentPage, pageSize) {
     return request({
-      url: '/discuss/' + blogId,
+      url: '/comment/pageList',
       method: 'post',
-      data: qs.stringify({'discussBody': discussBody})
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      data: JSON.stringify({topicId:topicId, currentPage:currentPage, pageSize:pageSize})
+    })
+  },
+  sendDiscuss(blogId, discussBody,num) {  //发送评论
+    return request({
+      url: '/comment/addComment',
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      data: JSON.stringify({blogId:blogId, discussBody:discussBody,num:num})
     })
   },
   adminDeleteDiscuss(discussId) { //管理员删除评论
@@ -29,7 +42,7 @@ export default {
   },
   userDeleteDiscuss(discussId) { //用户删除评论
     return request({
-      url: '/discuss/' + discussId,
+      url: '/comment/delComment/' + discussId,
       method: 'delete'
     })
   },
@@ -39,18 +52,13 @@ export default {
       method: 'delete'
     })
   },
-  userDeleteReply(replyId) { //用户删除回复
-    return request({
-      url: '/reply/' + replyId,
-      method: 'delete'
-    })
-  },
-  getUserNewDiscuss(){ //用户最近评论
-    return request({
-      url: '/comment/userNewDiscuss',
-      method: 'get'
-    })
-  },
+  // userDeleteReply(replyId) { //用户删除回复
+  //   return request({
+  //     url: '/reply/' + replyId,
+  //     method: 'delete'
+  //   })
+  // },
+
 
 
 }

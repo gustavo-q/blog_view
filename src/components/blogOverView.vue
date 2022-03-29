@@ -56,10 +56,10 @@
       }
     },
     methods: {
-      router(id) {
+      router(roleId) {
         scrollTo(0, 0);
         this.$router.push({ //路由跳转
-          path: '/blog/' + id
+          path: '/blog/'+roleId
         });
       },
       pEnter() {

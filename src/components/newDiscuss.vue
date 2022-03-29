@@ -6,8 +6,8 @@
     </p>
     <hr/>
     <div v-for="discuss in discussList" v-if="$store.state.token!==''">
-      <el-link type="info" :underline="false" style="margin: 5px 0" @click="router(discuss.blog.id)">
-        {{discuss.user.name}}&nbsp;:&nbsp;{{discuss.body}}《{{discuss.blog.title}}》
+      <el-link type="info" :underline="false" style="margin: 5px 0" @click="router(discuss.topicId)">
+        {{discuss.name}}&nbsp;:&nbsp;{{discuss.content}}《{{discuss.title}}》
       </el-link>
     </div>
     <div v-if="$store.state.token===''" style="padding-top: 30px">
@@ -28,7 +28,7 @@
       }
     },
     created() {
-      if ($store.state.token!==''){
+      if (this.$store.state.token!==''){
       discuss.getNewDiscuss().then(responese => {
         this.discussList = responese.data;
       });
