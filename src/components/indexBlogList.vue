@@ -1,8 +1,8 @@
 <template>
   <div id="indexBlogList" v-loading="loading">
       <blogOverView v-for="blog in blogList" :key="blog.id" :id="blog.id" :title="blog.title"
-                    :body="blog.content" :time="getTime(blog.createTime)"
-                    :blogViews="blog.views" :top="blog.top"
+                    :body="blog.content" :time="getTime(blog.time)" :tags="blog.tags"
+                    :blogViews="blog.blogViews"  :name="blog.userName" :discussCount="blog.discussCount"
                  />
 
     <div v-if="loading" style="margin: 35% 0">

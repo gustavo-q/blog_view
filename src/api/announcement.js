@@ -4,8 +4,12 @@ import qs from 'qs'
 export default {
   getAnnouncement(page, showCount) {
     return request({
-      url: '/announcement/' + page + '/' + showCount,
-      method: 'get'
+      url: '/announcement/pageList',
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      data: JSON.stringify({currentPage: page, pageSize: showCount})
     })
   },
   sendAnnouncement(title, body) {

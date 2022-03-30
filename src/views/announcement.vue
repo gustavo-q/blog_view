@@ -1,23 +1,24 @@
 <template>
-  <el-card id="announcement" v-loading="loading">
-    <br/>
-    <div v-if="loading" style="margin: 35% 0"></div>
+  <el-card id="announcement" >
+    <br />
+    <div v-loading="loading" v-if="this.$store.state.token!==''"></div>
+    <div v-if="this.$store.state.token===''">请先登陆</div>
+    <div v-if="loading" style="margin: 35% 0" ></div>
     <div v-for="announcement in announcementList"
-         style="text-align: left;padding-left: 2%;">
-      <div class="top" :class="(announcement.top==1)?'normal':'subscript'" v-if="announcement.top==0">
+         style="text-align: left;padding-left: 2%;" >
+      <div class="top" :class="(announcement.top===0)?'normal':'subscript'" v-if="announcement.top===1">
         置顶
       </div>
 
       <p style="color:#409EFF" class="el-icon-data-board">
         &nbsp;{{announcement.title}}
       </p>
-      <div style="color: #303133" :id="announcement.id" v-html="announcement.body"/>
+      <div style="color: #303133" :id="announcement.id" v-html="announcement.content"/>
       <p style="color: #C0C4CC;font-size:12px">
-        {{getTime(announcement.time)}}
+        {{getTime(announcement.createTime)}}
       </p>
       <el-divider/>
     </div>
-
 
     <div style="padding-bottom: 4%">
       <el-pagination
@@ -45,13 +46,15 @@
       return {
         total: 0,        //数据总数
         announcementList: [],   //当前页数据防止空页面的突兀
-        pageSize: 5,    //每页显示数量
+        pageSize: 10,    //每页显示数量
         currentPage: 1,   //当前页数
         loading: true //是否加载中
       }
     },
     created() {
-      this.loadAnnouncement();
+      if (this.$store.state.token!==''){
+        this.loadAnnouncement();
+      }
     },
     updated: function () {
       var w = document.documentElement.offsetWidth || document.body.offsetWidth;
@@ -65,8 +68,8 @@
     methods: {
       loadAnnouncement() {
         announcement.getAnnouncement(this.currentPage, this.pageSize).then(res => {
-          this.total = res.data.total;
-          this.announcementList = res.data.rows;
+          this.total = res.data.totalCount;
+          this.announcementList = res.data;
           this.loading = false
         })
       },
@@ -74,9 +77,9 @@
         this.currentPage = currentPage;
         this.loadAnnouncement();
       },
-      getStoreRoles() { //获取store中存储的roles
-        return this.$store.state.roles;
-      },
+      // getStoreRoles() { //获取store中存储的roles
+      //   return this.$store.state.roles;
+      // },
       getTime(time) {//将时间戳转化为几分钟前，几小时前
         return date.timeago(time);
       }

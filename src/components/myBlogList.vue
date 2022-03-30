@@ -2,7 +2,7 @@
   <div id="myBlogList">
     <div v-for="blog in blogList">
       <blogOverView :id="blog.id" :title="blog.title" :body="blog.content" :time="getTime(blog.time)"
-                    :blogViews="blog.views"
+                    :blogViews="blog.blogViews"
                     :discussCount="blog.discussCount" :tags="blog.tags"
                     :name="blog.userName"/>
     </div>

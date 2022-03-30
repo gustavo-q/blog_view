@@ -144,7 +144,12 @@
   }
 
   #body {
-    font-size: 14px
+    font-size: 14px;
+    overflow: hidden ;
+    display: -webkit-box ;
+    -webkit-line-clamp: 2 ;
+    -webkit-box-orient: vertical ;
+    word-break: break-all ;
   }
 
   a {

@@ -4,10 +4,10 @@
     <el-card shadow="hover" v-if="blogList.length<=0" style="margin: 20% auto">暂无符合条件的内容</el-card>
     <div>
       <blogOverView v-for="blog in blogList" :key="blog.id" :id="blog.id" :title="blog.title"
-                    :body="blog.body" :time="getTime(blog.time)"
+                    :body="blog.content" :time="getTime(blog.time)"
                     :blogViews="blog.blogViews"
-                    :discussCount="blog.discussCount" :tags="catchTagName(blog.tags)"
-                    :name="blog.user.name"/>
+                    :discussCount="blog.discussCount" :tags="blog.tags"
+                    :name="blog.userName"/>
     </div>
 
     <div v-if="loading" style="margin: 35% 0">
@@ -69,8 +69,8 @@
       },
       loadBlog() { //加载数据
         blog.userSearchBlog(this.searchTxt, this.currentPage, this.pageSize).then(responese => {
-          this.total = responese.data.total;
-          this.blogList = responese.data.rows;
+          this.total = responese.data.totalCount;
+          this.blogList = responese.data;
           this.loading = false;
         });
       }

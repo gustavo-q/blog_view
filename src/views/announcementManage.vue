@@ -99,8 +99,8 @@
     methods: {
       load() {
         announcement.getAnnouncement(this.currentPage, this.pageSize).then(res => {
-          this.announcementData = res.data.rows;
-          this.total = res.data.total;
+          this.announcementData = res.data;
+          this.total = res.data.totalCount;
           this.loading = false;
         });
       },
