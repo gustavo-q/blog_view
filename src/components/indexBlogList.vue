@@ -1,10 +1,11 @@
 <template>
   <div id="indexBlogList" v-loading="loading">
+    <p style="display: none">{{ tagId = this.$route.params.tagId }}</p>
       <blogOverView v-for="blog in blogList" :key="blog.id" :id="blog.id" :title="blog.title"
                     :body="blog.content" :time="getTime(blog.time)" :tags="blog.tags"
                     :blogViews="blog.blogViews"  :name="blog.userName" :discussCount="blog.discussCount"
                  />
-
+    <p style="display: none">{{ categoryId = this.$route.params.categoryId }}</p>
     <div v-if="loading" style="margin: 35% 0">
 
     </div>
@@ -40,12 +41,26 @@
         blogList: [],   //当前页数据
         pageSize: 10,    //每页显示数量
         currentPage: 1,   //当前页数
-        loading: true
+        loading: true,
+        categoryId:0,
+        tagId:0
       }
     },
     created() {
-      this.loadBlog();
       this.visitor();
+    },
+    watch: {
+      categoryId() {//在此调用接口
+        this.loadBlog();
+        console.log(this.categoryId)
+        console.log("watch")
+      },
+      tagId() {//在此调用接口
+        this.loadBlog();
+        console.log(this.categoryId)
+        console.log("watch")
+      },
+
     },
     methods: {
       getTime(time) {//将时间戳转化为几分钟前，几小时前
@@ -65,12 +80,37 @@
         scrollTo(0, 0);
       },
       loadBlog() { //加载数据
-        blog.getBlogHome(this.currentPage, this.pageSize).then(responese => {
-          this.total = responese.totalCount;
-          this.blogList = responese.data;
+        this.blogList=[]
+        console.log(this.categoryId)
+        console.log(this.tagId)
+        if (this.categoryId===undefined && this.tagId===undefined){
+          blog.getBlogHome(this.currentPage, this.pageSize).then(responese => {
+            this.total = responese.totalCount;
+            this.blogList = responese.data;
 
-          this.loading = false;
-        });
+            this.loading = false;
+          });
+        }else {
+          if (this.categoryId!==undefined){
+            console.log(this.categoryId)
+          blog.homeByCategory(this.currentPage, this.pageSize,this.categoryId).then(responese => {
+            this.total = responese.totalCount;
+            this.blogList = responese.data;
+
+            this.loading = false;
+          });
+          }
+          if (this.tagId!==undefined){
+            console.log(this.tagId)
+            blog.hotTags(this.currentPage, this.pageSize,this.tagId).then(responese => {
+              this.total = responese.totalCount;
+              this.blogList = responese.data;
+
+              this.loading = false;
+            });
+          }
+        }
+
 
       },
       visitor() {
@@ -86,6 +126,5 @@
 <style scoped>
   #indexBlogList {
     text-align: center;
-    margin-top: -13px;
   }
 </style>

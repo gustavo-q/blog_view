@@ -1,5 +1,5 @@
 <template>
-  <el-card id="announcement" >
+  <div id="announcement" >
     <br />
     <div v-loading="loading" v-if="this.$store.state.token!==''"></div>
     <div v-if="this.$store.state.token===''">请先登陆</div>
@@ -34,7 +34,7 @@
       </el-pagination>
     </div>
 
-  </el-card>
+  </div>
 </template>
 <script>
   import announcement from '@/api/announcement'
@@ -58,7 +58,7 @@
     },
     updated: function () {
       var w = document.documentElement.offsetWidth || document.body.offsetWidth;
-      if (w < 768) {  //对应xs
+      if (w < 750) {  //对应xs
         var tops = document.getElementsByClassName('subscript');
         for (var i = 0; i < tops.length; i++) {
           tops[i].style.marginLeft = '80%'
@@ -88,7 +88,10 @@
 </script>
 <style scoped>
   #announcement {
-    margin: 10px 5% 0 5%;
+    width: 40%;
+    margin: auto ;
+    margin-top: 5px;
+    background-color: #ffffff;
   }
 
   .subscript {
@@ -96,9 +99,10 @@
     height: 30px;
     width: 80px;
     margin-top: -25px;
-    margin-left: 94%;
+    margin-left: 90%;
     text-align: center;
     line-height: 30px;
     background-color: #67C23A;
   }
+
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div id="myBlogList">
+    <p style="display: none">{{ tagId = this.$route.params.tagId }}</p>
     <div v-for="blog in blogList">
       <blogOverView :id="blog.id" :title="blog.title" :body="blog.content" :time="getTime(blog.time)"
                     :blogViews="blog.blogViews"
@@ -42,11 +43,14 @@
         total: 0,        //数据总数
         blogList: [],   //当前页数据
         pageSize: 5,    //每页显示数量
-        currentPage: 1   //当前页数
+        currentPage: 1,   //当前页数
+        tagId: 0,
       }
     },
-    created() {
-      this.loadBlog();
+    watch: {
+      tagId() {//在此调用接口
+        this.loadBlogByTag();
+      }
     },
     methods: {
       getTime(time) {//将时间戳转化为几分钟前，几小时前
@@ -64,18 +68,28 @@
         this.loadBlog();
         scrollTo(0, 0);
       },
-      loadBlog() { //加载数据
-        blog.getMyBlog(this.currentPage, this.pageSize).then(responese => {
+
+      loadBlogByTag() { //加载数据
+        this.blogList=[]
+        if (this.tagId===undefined){
+          blog.getMyBlog(this.currentPage, this.pageSize).then(responese => {
+            this.total = responese.totalCount;
+            this.blogList = responese.data;
+          });
+          console.log(this.blogList)
+        }else {
+        blog.getMyBlogByTag(this.currentPage, this.pageSize,this.tagId).then(responese => {
           this.total = responese.totalCount;
           this.blogList = responese.data;
         });
         console.log(this.blogList)
+        }
       }
     }
   }
 </script>
 <style scoped>
   #myBlogList {
-    margin-top: -13px;
+    margin-top: 10px;
   }
 </style>

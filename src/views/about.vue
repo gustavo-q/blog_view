@@ -1,5 +1,5 @@
 <template>
-  <el-container class="main">
+  <div class="main">
     <el-row>
       <el-col cols="12" sm="12" md="12" lg="12" xl="12">
         <el-media>
@@ -37,15 +37,12 @@
           <li>记录生活</li>
           <li>记录生活</li>
           <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
+
+
         </ul>
       </el-col>
     </el-row>
-  </el-container>
+  </div>
 </template>
 
 <script>
@@ -56,17 +53,17 @@ export default {
 
 <style scoped>
 .main {
-  margin: 10px 5% 0 5%;
-  padding: 20px;
-  height: 100%;
+  width: 40%;
+  margin: auto;
+  padding: 10px;
+  height: 710px;
   background-color: #fff;
-  background-image: url("../assets/v2-a38cfaf7bdbdbd39b348f96a9371861d_r.jpg");
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 h5 {
-  margin-top: 20px;
+  margin-top: 10px;
   text-align: left;
   font-size: 20px;
 }

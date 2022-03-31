@@ -1,10 +1,18 @@
 <template>
-  <div>
+  <div style="background: hsla(0,0%,98%,.8);">
     <el-container>
+
+      <el-header style="width: 50%;height:15%;margin:auto;margin-top: 10px;margin-bottom: 10px">
+        <categoryList/>
+      </el-header>
+
+
+    <el-container style="width: 80%;margin:auto" >
+
       <el-aside id="aside1" style="width: 20%;margin: 10px 1%  " class="hidden-xs-only">
         <div  >
           <introduction/>
-          <newDiscuss/>
+          <hotTags/>
         </div>
       </el-aside>
 
@@ -19,6 +27,7 @@
         </div>
       </el-aside>
     </el-container>
+    </el-container>
   </div>
 </template>
 <script>
@@ -27,12 +36,14 @@
   import hotBlog from '@/components/hotBlog'
   import statisticalBlog from '@/components/statisticalBlog'
   import indexBlogList from '@/components/indexBlogList'
+  import categoryList from '@/components/categoryList'
+  import hotTags from '@/components/hotTags'
 
   import 'element-ui/lib/theme-chalk/display.css';
 
   export default {
     name: 'index',
-    components: {introduction, newDiscuss, hotBlog, statisticalBlog, indexBlogList}
+    components: {hotTags,categoryList, introduction, newDiscuss, hotBlog, statisticalBlog, indexBlogList}
   }
 </script>
 <style scoped>

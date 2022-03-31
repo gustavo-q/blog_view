@@ -15,26 +15,48 @@ export default {
     })
   },
   getBlogHome(page, showCount) {
+
     return request({
       url: '/blog/home/' + page + '/' + showCount,
       method: 'get'
     })
   },
+  homeByCategory(page, showCount, categoryId) {
+    return request({
+      url: '/blog/homeByCategory/' + page + '/' + showCount + '/' + categoryId,
+      method: 'get'
+    })
+  },
+
+  hotTags(page, showCount,tagId) {
+    return request({
+      url: '/blog/getMyBlogByTag/' + page + '/' + showCount + '/' + tagId,
+      method: 'get'
+    })
+  },
+
   getBlogById(id) {
     return request({
-      url: '/blog/getBlogById/' + id ,
+      url: '/blog/getBlogById/' + id,
       method: 'get'
     })
   },
   updateViews(id) {
     return request({
-      url: '/blog/updateViews/' + id ,
+      url: '/blog/updateViews/' + id,
       method: 'get'
     })
   },
   getMyBlog(page, showCount) {
     return request({
       url: '/blog/myblog/' + page + '/' + showCount,
+      method: 'get'
+    })
+  },
+
+  getMyBlogByTag(page, showCount, tagId) {
+    return request({
+      url: '/blog/getMyBlogByTag/' + page + '/' + showCount + '/' + tagId,
       method: 'get'
     })
   },

@@ -1,5 +1,5 @@
 <template>
-  <el-card id="message" v-loading="loading">
+  <div id="message" v-loading="loading">
 
     <div v-if="loading" style="margin: 35% 0"></div>
     <div v-for="message in messageList" style="text-align: left;padding-left: 2%">
@@ -48,7 +48,7 @@
         </el-button>
       </el-row>
     </div>
-  </el-card>
+  </div>
 </template>
 <script>
   import message from '@/api/message'
@@ -147,6 +147,9 @@
 </script>
 <style scoped>
   #message {
-    margin: 10px 5% 0 5%;
+    width: 40%;
+    margin: auto ;
+    margin-top: 5px;
+    background-color: #ffffff;
   }
 </style>

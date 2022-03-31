@@ -1,5 +1,5 @@
 <template>
-  <el-card id="blogOverView">
+  <div id="blogOverView">
 
 <!--    <div style="position: absolute;right: 25%;width: 10%" @mouseenter="pEnter()" @mouseleave="pLeave()">-->
 <!--      <span style="width: 5%" v-if="show&&(getStoreName()==name)" @click="editBlog(id)" title="编辑">-->
@@ -20,27 +20,22 @@
     <div id="body" @mouseenter="pEnter()" @mouseleave="pLeave()" >
       {{bodyTran(body)}}
     </div>
-    <div @mouseenter="pEnter()" @mouseleave="pLeave()">
-      <p style="overflow: hidden;text-overflow:ellipsis; white-space: nowrap;">
-        <span class="el-icon-time hidden-xs-only" style="width: 20%" >&nbsp;{{time}}</span>
+    <div @mouseenter="pEnter()" @mouseleave="pLeave()" style="color: #999;">
+      <span class=" hidden-xs-only spanText">作者:&nbsp;{{name}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
-        <span class="el-icon-view hidden-xs-only" style="width: 15%">&nbsp;{{blogViews}}</span>
+        <span class="el-icon-view hidden-xs-only spanText" >&nbsp;{{blogViews}}</span>
 
-        <span class="el-icon-chat-line-square hidden-xs-only" style="width: 10%">&nbsp;{{discussCount}}</span>
-
-        <span class="el-icon-user-solid hidden-xs-only" style="width: 10%;text-align: center;">
-          &nbsp;{{name}}
-        </span>
+        <span class="el-icon-chat-line-square hidden-xs-only spanText" >&nbsp;{{discussCount}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
         <span>
           <span v-for="tag in tags">
-            <el-tag size="small" type="success" style="margin-left: 5px">{{tag}}</el-tag>
+            <el-tag size="small" class="spanText" type="success" style="margin-left: 5px ">{{tag}}</el-tag>
           </span>
         </span>
 
-      </p>
     </div>
-  </el-card>
+    <el-divider ></el-divider>
+  </div>
 </template>
 <script>
 
@@ -126,16 +121,15 @@
 <style scoped>
   #blogOverView {
     text-align: left;
-    /*-moz-box-shadow: 0px 6px 0px #333333;*/
-    /*-webkit-box-shadow: 0px 6px 0px #333333;*/
-    /*box-shadow: 0px 3px 10px #333333;*/
-    margin: 2% 2%;
-    padding: 2px 10px;
+    padding-bottom: 0px;
   }
 
   #title {
-    color: black;
-    transition: all 0.2s linear;
+    margin: -10px 0 4px;
+    display: inherit;
+    font-size: 18px;
+    font-weight: 700;
+
   }
 
   #title:hover {
@@ -144,15 +138,28 @@
   }
 
   #body {
-    font-size: 14px;
+    margin: 5px;
     overflow: hidden ;
     display: -webkit-box ;
-    -webkit-line-clamp: 2 ;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical ;
     word-break: break-all ;
+    font-size: 16px;
+    line-height: 24px;
+    color: #999;
   }
 
   a {
     text-decoration: none;
+  }
+
+  .spanText{
+    line-height: 24px;
+    font-size: 12px;
+    margin-top: 15px;
+  }
+
+  .el-divider--horizontal{
+   margin: 10px 0;
   }
 </style>

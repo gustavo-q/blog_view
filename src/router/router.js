@@ -20,6 +20,7 @@ import announcementManage from '@/views/announcementManage'
 import blogManage from '@/views/blogManage'
 import logManage from '@/views/logManage'
 import about from '@/views/about'
+import echartsWordcloud from '@/components/echartsWordcloud'
 
 Vue.use(Router)
 
@@ -103,6 +104,21 @@ export default new Router({
       component: blog
     },
     {
+      path: '/category/:categoryId',
+      name: 'category',
+      component: index
+    },
+    {
+      path: '/myTag/:tagId',
+      name: 'myTag',
+      component: myBlog
+    },
+    {
+      path: '/hotTag/:tagId',
+      name: 'hotTag',
+      component: index
+    },
+    {
       path: '/myBlog',
       name: 'myBlog',
       component: myBlog
@@ -111,6 +127,11 @@ export default new Router({
       path: '/editBlog/:blogId',
       name: 'editBlog',
       component: editBlog
+    },
+    {
+      path: '/echartsWordcloud',
+      name: 'echartsWordcloud',
+      component: echartsWordcloud
     },
     {
       path: '*',

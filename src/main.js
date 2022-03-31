@@ -12,7 +12,10 @@ import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 
 import router from './router/router'
+import * as echarts from 'echarts'
 
+require('echarts-wordcloud')
+Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 
 Vue.use(VueCookies)

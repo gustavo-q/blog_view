@@ -1,38 +1,60 @@
 <template>
-  <el-card id="bar">
-    <div>
+    <div style="max-height: 340px">
       <el-row>
         <el-menu :default-active="activeIndex" class="el-menu-demo" :router="true" mode="horizontal"
                  @select="handleSelect">
-
-          <el-menu-item index="1" route="/" style="margin-left: 25%">首页</el-menu-item>
-          <el-menu-item index="3" style="margin-left: 2%" route="/message">留言板</el-menu-item>
-          <el-menu-item index="5" style="margin-left: 2%" route="/announcement">本站公告</el-menu-item>
-          <el-menu-item index="6" style="margin-left: 2%" route="/about">关于本站</el-menu-item>
+          <el-menu-item  style="margin-left: 18%" >logo</el-menu-item>
+          <el-menu-item index="1" route="/" style="margin-left: 7%" class="el-icon-discover">首页</el-menu-item>
+          <el-menu-item index="3" style="margin-left: 1%" route="/message"  class="el-icon-message">留言板</el-menu-item>
+          <el-menu-item index="5" style="margin-left: 1%" route="/announcement" class="el-icon-s-management">本站公告</el-menu-item>
+          <el-menu-item index="6" style="margin-left: 1%" route="/about" class="el-icon-help">关于本站</el-menu-item>
 
 
 <!--          <el-menu-item id="space" index="" @click="egg" class="hidden-xs-only"/>-->
           <!--<el-menu-item/>-->
 
 
-          <div style="width: 15%;float: left;margin: 10px 1% 0px 15%" class="hidden-xs-only">
+          <div style="width: 12%;float: left;margin: 10px 2% 0px 2%;" class="hidden-xs-only">
             <el-input placeholder="搜索博客" v-model="searchTxt" suffix-icon="el-icon-search"
-                      @keyup.enter.native="searchSubmit"/>
+                      @keyup.enter.native="searchSubmit" @click="searchSubmit" />
 
           </div>
-          <el-menu-item class="hidden-xs-only" v-if="this.$store.state.token===''" index="" style="float: right;"
+          <el-menu-item class="hidden-xs-only" v-if="this.$store.state.token===''" index=""
                         @click="loginFormVisible = true">
             <el-button type="text">登录</el-button>
           </el-menu-item>
 
-          <el-menu-item class="hidden-xs-only" v-if="this.$store.state.token===''" index="" style="float: right;"
+          <el-menu-item class="hidden-xs-only" v-if="this.$store.state.token===''" index=""
                         @click="registerFormVisible = true">
             <el-button type="text">注册</el-button>
           </el-menu-item>
 
+          <div style="float: left;margin: 10px 0% 0px 5%;" class="hidden-xs-only" v-if="this.$store.state.token!==''">
+            <img src="../assets/logo.png" id="avatarImg"/>
+          </div>
+          <el-submenu class="hidden-xs-only" index="4" v-if="this.$store.state.token!==''" :router="true">
+            <template slot="title"><span v-text="getName">[&nbsp;&nbsp;{{a}}&nbsp;&nbsp;]</span></template>
+
+            <el-menu-item route="/myBlog" index="4-3">&nbsp;&nbsp;&nbsp;
+              <i class="el-icon-s-home"></i>
+              我的博客
+            </el-menu-item>
+            <!--            <el-menu-item route="/account" index="4-2">&nbsp;&nbsp;&nbsp;-->
+            <!--              <i class="el-icon-s-tools"></i>-->
+            <!--              账号设置-->
+            <!--            </el-menu-item>-->
+            <el-menu-item  >&nbsp;&nbsp;&nbsp;
+              <i class="el-icon-loading"></i>
+              <a href="http://localhost:8081" target="_blank" style="text-decoration:none;color:#5b5e5b" >管理后台</a>
+            </el-menu-item>
+            <el-menu-item @click="logout">&nbsp;&nbsp;&nbsp;
+              <i class="el-icon-switch-button"/>退出登录
+            </el-menu-item>
+          </el-submenu>
 
 
 
+<!--        登录弹出框-->
           <el-dialog title="登录" :visible.sync="loginFormVisible" width="21%">
             <el-form :model="form">
               <el-form-item :label-width="formLabelWidth">
@@ -49,6 +71,8 @@
             </el-form>
           </el-dialog>
 
+
+          <!--        注册弹出框-->
           <el-dialog title="注册" :visible.sync="registerFormVisible" width="30%">
 
             <el-form :model="form">
@@ -84,32 +108,14 @@
           </el-dialog>
 
 
-          <el-submenu class="hidden-xs-only" index="4" v-if="this.$store.state.token!==''" :router="true">
-            <template slot="title"><span v-text="getName">[&nbsp;&nbsp;{{a}}&nbsp;&nbsp;]</span></template>
 
-            <el-menu-item route="/myBlog" index="4-3">&nbsp;&nbsp;&nbsp;
-              <i class="el-icon-s-home"></i>
-              我的博客
-            </el-menu-item>
-<!--            <el-menu-item route="/account" index="4-2">&nbsp;&nbsp;&nbsp;-->
-<!--              <i class="el-icon-s-tools"></i>-->
-<!--              账号设置-->
-<!--            </el-menu-item>-->
-            <el-menu-item  >&nbsp;&nbsp;&nbsp;
-              <i class="el-icon-loading"></i>
-              <a href="http://localhost:8081" target="_blank" style="text-decoration:none;color:#5b5e5b" >管理后台</a>
-            </el-menu-item>
-            <el-menu-item @click="logout">&nbsp;&nbsp;&nbsp;
-              <i class="el-icon-switch-button"/>退出登录
-            </el-menu-item>
-          </el-submenu>
+
 
         </el-menu>
       </el-row>
 
     </div>
 
-  </el-card>
 </template>
 <script>
   import user from '@/api/user'
@@ -117,7 +123,6 @@
   import 'element-ui/lib/theme-chalk/display.css';
 
   export default {
-    name: 'bar',
     data() {
       return {
         a: this.$store.state.name,
@@ -293,19 +298,29 @@
     }
   }
 </script>
-<style>
+<style scoped>
   #bar {
-    margin-top: -50px;
+    max-height: 340px;
+    margin-top: -30px;
     margin-bottom: 0px;
   }
 
-  #space {
-    margin: 0 21% 0 20%;
+
+  /deep/ .el-input__inner{   /*或者 .s2>>>.el-input__inner  */
+    border-radius: 17px;    /*输入框圆角值*/
   }
 
-  .logoImg {
-    height: 25px;
-    width: 25px;
-    margin-top: 10px;
+  #avatarImg{
+      width: 40px;
+      height: 40px;
+    border-radius: 50%;
+    vertical-align: middle;
   }
+
+
+  /*#space {*/
+  /*  margin: 0 21% 0 20%;*/
+  /*}*/
+
+
 </style>

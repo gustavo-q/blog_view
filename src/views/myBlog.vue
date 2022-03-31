@@ -1,18 +1,12 @@
 <template>
   <div id="myBlog">
-    <el-container>
-      <el-main style="width: 75%">
-        <div>
+    <el-container  style="width: 60%;margin: auto">
+      <el-main style="width: 40%">
           <myBlogList/>
-        </div>
       </el-main>
-      <el-aside id="aside" style="width: 20%">
-        <div style="margin: 10px">
+      <el-aside id="aside" style="width: 25%;margin: 10px 1%">
           <userNewDiscuss/>
-        </div>
-        <div>
           <myTag/>
-        </div>
       </el-aside>
     </el-container>
   </div>
