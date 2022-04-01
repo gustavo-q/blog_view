@@ -39,10 +39,6 @@
               <i class="el-icon-s-home"></i>
               我的博客
             </el-menu-item>
-            <!--            <el-menu-item route="/account" index="4-2">&nbsp;&nbsp;&nbsp;-->
-            <!--              <i class="el-icon-s-tools"></i>-->
-            <!--              账号设置-->
-            <!--            </el-menu-item>-->
             <el-menu-item  >&nbsp;&nbsp;&nbsp;
               <i class="el-icon-loading"></i>
               <a href="http://localhost:8081" target="_blank" style="text-decoration:none;color:#5b5e5b" >管理后台</a>

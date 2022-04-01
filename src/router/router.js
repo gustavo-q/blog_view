@@ -5,7 +5,6 @@ import index from '@/views/index'
 import message from '@/views/message'
 import announcement from '@/views/announcement'
 import newBlog from '@/views/newBlog'
-import account from '@/views/account'
 import admins from '@/views/admins'
 import forgetPwd from '@/views/forgetPwd'
 import searchBlog from '@/views/searchBlog'
@@ -50,11 +49,6 @@ export default new Router({
       path: '/newBlog',
       name: 'newBlog',
       component: newBlog
-    },
-    {
-      path: '/account',
-      name: 'account',
-      component: account
     },
     {
       path: '/admins',

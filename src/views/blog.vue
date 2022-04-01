@@ -38,10 +38,12 @@
     <!-- 以下是预览模式配置 -->
     <!--:toolbarsFlag="false"  :subfield="false" defaultOpen="preview"-->
 
-    <div style="margin: 0 auto;width: 50%" class="hidden-xs-only" v-if="userReward!=undefined&&userReward!==null">
+    <div style="margin: 0 auto;width: 50%" class="hidden-xs-only" >
       <br/>
-      <el-popover placement="bottom" width="300px" height="250px" trigger="hover">
-        <img alt="打赏码" :src="userReward" width="250px" height="250px"/>
+      <el-popover placement="bottom" width="300px" height="250px" trigger="hover" >
+        <img alt="打赏码" :src="userReward" width="250px" height="250px" v-if="userReward!=='1'&&userReward!=='0'"/>
+        <span v-if="userReward==='1'">&nbsp;&nbsp;&nbsp;&nbsp;赞赏码未设置</span>
+        <span v-if="userReward==='0'">&nbsp;&nbsp;&nbsp;该文章不支持赞赏</span>
         <el-button type="text" slot="reference" icon="el-icon-trophy" round>写的不错，打赏一个</el-button>
       </el-popover>
       <el-button type="text" :class="[like==0?'el-tyson-good':'el-tyson-good-fill']" @click="likeThis">
@@ -226,7 +228,7 @@ export default {
           this.time = res.data.time;
           this.userName = res.data.userName;
           this.tags = res.data.tags;
-          this.userReward = res.data.user.userReward;
+          this.userReward = res.data.userReward;
 
           //设置cookies
           // 是否存在history此key
