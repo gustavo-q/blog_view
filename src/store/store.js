@@ -8,7 +8,8 @@ export default new Vuex.Store({
     roles: localStorage.getItem('roles') == null ? '' : localStorage.getItem('roles'),
     token: localStorage.getItem('token') == null ? '' : localStorage.getItem('token'),
     name: localStorage.getItem('name') == null ? '' : localStorage.getItem('name'),
-    id: localStorage.getItem('id') == null ? '' : localStorage.getItem('id')
+    id: localStorage.getItem('id') == null ? '' : localStorage.getItem('id'),
+    avatar: localStorage.getItem('avatar') == null ? '' : localStorage.getItem('avatar')
 
   }, mutations: {
     login(state, data) {
@@ -29,6 +30,9 @@ export default new Vuex.Store({
 
         this.state.id = res.data.id;
         localStorage.setItem('id', res.data.id)
+
+        this.state.avatar = res.data.avatar;
+        localStorage.setItem('avatar', res.data.avatar)
       })
 
 
@@ -42,6 +46,8 @@ export default new Vuex.Store({
       this.state.roles = '';
       localStorage.removeItem('id');
       this.state.id = '';
+      localStorage.removeItem('avatar');
+      this.state.avatar = '';
     },
     refresh(state, token) {  //刷新token
       this.state.token = token;

@@ -1,15 +1,14 @@
 <template>
   <el-card id="myTag">
-    <p>
-      <span style="color:#67C23A" class="el-icon-collection-tag">个人标签</span>
-    </p>
-    <hr/>
+        <span style="color:#d9ead1;font-size: 25px;  border-bottom: 3px solid #c5a7a7;padding-bottom: 12px;
+    line-height: 0.9;">我的标签</span>
 
-<!--    <div>-->
-<!--      <echartsWordcloud :datas=this.tags />-->
-<!--    </div>-->
-    <div v-for="tag in tags">
-      <el-link type="success" :underline="false" @click="router(tag.id)">{{tag.tag}}</el-link>
+    <div class="tagCss">
+      <el-button :underline="false" style="font-size: 14px;margin-top: 5px;color: #f9f9f9" v-for="tag in tags"
+                 :style="{'background-color':colorlists[Math.floor(Math.random()*10)]}"
+                 @click="router(tag.id)">
+        {{ tag.tag }}
+      </el-button>
     </div>
 
   </el-card>
@@ -24,7 +23,40 @@
     components: {echartsWordcloud},
     data() {
       return {
-        tags: []
+        tags: [],
+        colorlists: [
+
+          'rgb(229, 0, 19)',
+
+          'rgb(206,194,28)',
+
+          'rgb(0,161,233)',
+
+          'rgb(109,185,45)',
+
+          'rgb(166,0,130)',
+
+          'rgb(237,108,0)',
+
+          'rgb(240, 28, 131)',
+
+          'rgb(84, 21, 226)',
+
+          'rgb( 0,128,0)',
+
+          'rgb( 255,69,0)',
+
+          'rgb( 255,165,0)',
+
+          'rgb( 178,34,34)',
+
+          'rgb( 255,0,255)',
+
+          'rgb(65,105,225)',
+
+          'blueviolet'
+
+        ]
       }
     },
     created() {
@@ -59,5 +91,14 @@
     /*box-shadow: 0px 3px 10px #333333;*/
     margin: 30px 10px;
     height: 300px;
+    text-align: left;
+  }
+
+
+  .tagCss {
+    padding-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
   }
 </style>

@@ -1,47 +1,25 @@
 <template>
   <div class="main">
-    <el-row>
-      <el-col cols="12" sm="12" md="12" lg="12" xl="12">
-        <el-media>
-          <template v-slot:aside>
-            <el-image blank blank-color="#ccc" width="64" alt="placeholder"></el-image>
-          </template>
-          <h5 class="mt-0">Gustavo</h5>
-          <p>一个90后站长，多谢各位观光</p>
-        </el-media>
-      </el-col>
-      <el-col cols="12" sm="12" md="12" lg="12" xl="12">
-        <h5>内心独白</h5>
-        <ul>
-          <li>学习新知识，记录分享</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
-          <li>记录生活</li>
 
-
-        </ul>
-      </el-col>
-    </el-row>
+        <h1>关于本站</h1>
+        <el-divider></el-divider>
+        <h3>关于博客</h3>
+        <h5>博客创建与2021年,用于毕业设计答辩使用</h5>
+        <h5>内容主要是关于技术方面的记录，日常点滴，分享自己生活</h5>
+    <br/>
+    <br/>
+    <br/>
+    <h3>关于博主</h3>
+    <h5>初学Java，不懂前端的菜鸟</h5>
+    <h5>准备躺平，无欲无求的废材青年</h5>
+    <br/>
+    <br/>
+    <br/>
+    <h3>关于未来</h3>
+    <h5>持续维护网站</h5>
+    <h5>更新一些新的功能</h5>
+    <h5>记录美好生活</h5>
+    <h5>谢谢大家的关注</h5>
   </div>
 </template>
 
@@ -56,15 +34,29 @@ export default {
   width: 40%;
   margin: auto;
   padding: 10px;
-  height: 710px;
+  height: 800px;
   background-color: #fff;
   background-size: cover;
   background-repeat: no-repeat;
+  margin-bottom: -85px;
+  text-align: left;
 }
 
-h5 {
+h1 {
   margin-top: 10px;
-  text-align: left;
-  font-size: 20px;
+  padding: 15px;
+  font-size: 30px;
+  font-family: PingFang SC;
+  color: #e355e3;
+}
+
+h3{
+  padding: 15px;
+  color: #87ce87;
+}
+
+h5{
+  line-height: 5px;
+  padding-left: 15px;
 }
 </style>

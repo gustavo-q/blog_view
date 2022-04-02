@@ -5,7 +5,7 @@
           <myBlogList/>
       </el-main>
       <el-aside id="aside" style="width: 25%;margin: 10px 1%">
-          <userNewDiscuss/>
+<!--          <userNewDiscuss/>-->
           <myTag/>
       </el-aside>
     </el-container>

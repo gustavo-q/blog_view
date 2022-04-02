@@ -2,7 +2,7 @@
   <div id="announcement" >
     <br />
     <div v-loading="loading" v-if="this.$store.state.token!==''"></div>
-    <div v-if="this.$store.state.token===''">请先登陆</div>
+    <div v-if="this.$store.state.token===''" style="font-size: 25px;color: #b72323;padding-top: 50px">请先登录</div>
     <div v-if="loading" style="margin: 35% 0" ></div>
     <div v-for="announcement in announcementList"
          style="text-align: left;padding-left: 2%;" >

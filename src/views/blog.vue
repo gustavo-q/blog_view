@@ -8,10 +8,10 @@
       <h2 style="text-align: center">{{ title }}</h2>
     </div>
     <div style="float: left">
-    <img src="../assets/12807.jpg" id="avatarImg"/>
+      <img :src="avatar" class="avatarImg"/>
     </div>
     <div style="float: left;margin-bottom: 9px">
-    <div class=" hidden-xs-only spanText us">&nbsp;{{ userName }}</div>
+      <div class=" hidden-xs-only spanText us">&nbsp;{{ userName }}</div>
       <div class="ti">
         <span class="el-icon-time hidden-xs-only spanText">&nbsp;{{ getTime(time) }}</span>
 
@@ -38,9 +38,9 @@
     <!-- 以下是预览模式配置 -->
     <!--:toolbarsFlag="false"  :subfield="false" defaultOpen="preview"-->
 
-    <div style="margin: 0 auto;width: 50%" class="hidden-xs-only" >
+    <div style="margin: 0 auto;width: 50%" class="hidden-xs-only">
       <br/>
-      <el-popover placement="bottom" width="300px" height="250px" trigger="hover" >
+      <el-popover placement="bottom" width="300px" height="250px" trigger="hover">
         <img alt="打赏码" :src="userReward" width="250px" height="250px" v-if="userReward!=='1'&&userReward!=='0'"/>
         <span v-if="userReward==='1'">&nbsp;&nbsp;&nbsp;&nbsp;赞赏码未设置</span>
         <span v-if="userReward==='0'">&nbsp;&nbsp;&nbsp;该文章不支持赞赏</span>
@@ -55,49 +55,73 @@
     <el-divider/>
     <div id="discuss" class="hidden-xs-only" v-if="$store.state.token!==''">
 
-      <div style="width: 100%;margin-left: 2.5%;padding-top: 2%" v-if="getStoreName()!==''">
-        <el-input v-model="discussBody" placeholder="请输入评论内容" style="width: 40%" size="mini"></el-input>
+
+      <div style="width: 100%;margin-left: 2.5%;padding-top: 2%" v-if="getStoreName()!=='' && commentEnabled!==0">
+        <div style="float: left">
+          <img :src="$store.state.avatar" class="avatarImg"/>
+        </div>
+        <el-input type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 4}"
+                  v-model="discussBody" placeholder="请输入评论内容" style="width: 60%;margin-left: 7%;margin-top: 1%"
+                  size="mini"></el-input>
         <el-button type="primary" style="width: 10%" size="mini" @click="sendDiscuss(0)">评论</el-button>
+
       </div>
 
       <!-- 评论部分 -->
-      <div v-for="discuss in discussList" id="discussList">
-        <p style="margin: -5px " @mouseenter="pEnter()" @mouseleave="pLeave()">
-          <el-button type="text">{{ discuss.userName }}&nbsp;&nbsp;:</el-button>
-          <span style="margin-left: 10px">{{ discuss.content }}</span>
-          <span style="color: #909399;margin-left: 50px" class="el-icon-time">{{ getTime(discuss.createTime) }}</span>
-          <el-button type="text" style="margin-left: 5%"
-                     v-if="((discuss.userName===getStoreName()||(getStoreRoles()===1)||getStoreName()===userName)&&discuss.isDelete===0)&&replyFlag"
-                     @click="deleteDiscuss(discuss.id)">删除
-          </el-button>
-          <el-button type="text" style="margin-left: 1%" @click="sendReply(discuss.id)"
-                     v-if="getStoreName()!=''&&discuss.isDelete===0&&replyFlag">回复
-          </el-button>
+      <div v-for="discuss in discussList" id="discussList" v-if=" commentEnabled!==0" @mouseenter="pEnter()"
+           @mouseleave="pLeave()">
+        <div class="dT1">
+          <img :src="discuss.avatar" class="discussImg"/>
+          <el-button type="text">&nbsp;&nbsp;&nbsp;{{ discuss.userName }}&nbsp;&nbsp;:</el-button>
+        </div>
 
-        </p>
+        <span class="spanContent">{{ discuss.content }}</span>
+        <div class="dT2">
+        <span style="color: #909399;  margin-left: 22%;font-size: 10px"
+              class="el-icon-time">{{ getTime(discuss.createTime) }}</span>
+        <span type="text" style="margin-left: 5%;font-size: 10px;color: #6b6bde"
+              v-if="((discuss.userName===getStoreName()||(getStoreRoles()===1)||getStoreName()===userName)&&discuss.isDelete===0)&&replyFlag"
+              @click="deleteDiscuss(discuss.id)">删除
+          </span>
+        <span type="text" style="margin-left: 1%;font-size: 10px;color: #6b6bde" @click="sendReply(discuss.id)"
+              v-if="getStoreName()!=''&&discuss.isDelete===0&&replyFlag">回复
+          </span>
+        </div>
         <!-- 评论下的回复部分 -->
-        <p v-if="!(typeof(discuss.child) == 'undefined') && discuss.child.length>0"
-           v-for="reply in discuss.child" style="margin: -5px"
-           @mouseenter="pEnter()" @mouseleave="pLeave()">
-          <span style="margin-left: 5%" class="el-icon-arrow-right"></span>
+        <div v-if="!(typeof(discuss.child) == 'undefined') && discuss.child.length>0"
+           v-for="reply in discuss.child" style="margin-top: 6px">
+          <div class="dT3">
+          <span style="margin-left: 7%" class="el-icon-arrow-right"></span>
+          <img :src="reply.avatar" class="discussImg"/>
           <el-button type="text">{{ reply.userName }}&nbsp;&nbsp;:</el-button>
-
+          </div>
           <!--            <span v-if="reply.reply !== null">回复:</span>-->
           <!--            <el-button type="text" v-if="!(typeof(reply.reply) == 'undefined') && reply.reply !== null">-->
           <!--              {{ reply.reply.userName }}-->
           <!--            </el-button>-->
 
-          <span style="margin-left: 10px">{{ reply.content }}</span>
-          <span style="color: #909399;margin-left: 50px" class="el-icon-time">{{ getTime(reply.createTime) }}</span>
+          <span class="spanContent2">{{ reply.content }}</span>
+          <div class="dT4">
+          <span style="color: #909399;margin-left:27%;font-size: 10px"
+                class="el-icon-time">{{ getTime(reply.createTime) }}</span>
 
-          <el-button type="text" style="margin-left: 5%"
-                     v-if="(reply.userName===getStoreName()||(getStoreRoles()===1)||getStoreName()===userName)&&replyFlag"
-                     @click="deleteDiscuss(reply.id)">删除
-          </el-button>
+          <span type="text" style="margin-left: 5%;font-size: 10px;color: #6b6bde"
+                v-if="(reply.userName===getStoreName()||(getStoreRoles()===1)||getStoreName()===userName)&&replyFlag"
+                @click="deleteDiscuss(reply.id)">删除
+          </span>
+          </div>
           <!--            <el-button type="text" style="margin-left: 1%" @click="sendReply(discuss.id,reply.id)"-->
           <!--                       v-if="getStoreName()!=''&&replyFlag">回复-->
           <!--            </el-button>-->
-        </p>
+        </div>
+
+        <el-divider></el-divider>
+      </div>
+
+      <div style="text-align: center;line-height: 10px;size: 16px;margin-top: 10%;color:#982828"
+           v-if="commentEnabled===0">
+        该文章评论已关闭
       </div>
 
       <div style="padding-bottom: 4%">
@@ -141,9 +165,10 @@ export default {
       blogViews: 0,//浏览数
       time: 0, //发布事件
       userName: '',//博客用户名
+      avatar: '',
       tags: [],  //博文标签
       userReward: '',//博主打赏码
-
+      commentEnabled: '',//评论权限
       total: 0,        //数据总数
       discussList: [],   //当前页数据
       pageSize: 5,    //每页显示数量
@@ -229,6 +254,8 @@ export default {
           this.userName = res.data.userName;
           this.tags = res.data.tags;
           this.userReward = res.data.userReward;
+          this.commentEnabled = res.data.commentEnabled;
+          this.avatar = res.data.avatar;
 
           //设置cookies
           // 是否存在history此key
@@ -427,7 +454,8 @@ export default {
 
 #discussList {
   text-align: left;
-  padding: 2% 1% 1% 3%;
+  padding: 5% 1% 1% 3%;
+  width: 100%;
 }
 
 /*第三方icon，点赞&取消点赞*/
@@ -454,7 +482,7 @@ export default {
   margin-top: 15px;
 }
 
-#avatarImg {
+.avatarImg {
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -463,13 +491,61 @@ export default {
   padding-right: -5px;
 }
 
-.us{
-  margin: 12px 0px  0px 15px;
+.discussImg {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  vertical-align: middle;
+  padding-right: -5px;
+  padding-top: 5px;
+}
+
+.spanContent {
+  padding-top: 10px;
+  margin-left: 15px;
+  max-width: 75%;
+  display: inline-block;
+  overflow-wrap: break-word; /*  css3属性，当内容超过指定容器的边界时是否断行  */
+  text-align: left;
+}
+
+.spanContent2{
+  padding-top: 10px;
+  margin-left: 15px;
+  max-width: 66%;
+  display: inline-block;
+  overflow-wrap: break-word; /*  css3属性，当内容超过指定容器的边界时是否断行  */
+  text-align: left;
+}
+
+.dT1{
+  width: 20%;
+  float: left;
+}
+.dT2{
+  padding-top: 13px;
+}
+
+
+.dT3{
+  width: 20%;
+  float: left;
+  margin-left: 7%;
+}
+
+.dT4{
+  padding-top: 13px;
+  margin-left: 15px;
+  width: 100%;
+}
+
+.us {
+  margin: 12px 0px 0px 15px;
   font-size: 17px;
 }
 
-.ti{
-  margin: -12px 0px  7px 15px;
+.ti {
+  margin: -12px 0px 7px 15px;
 }
 
 </style>

@@ -38,7 +38,7 @@ service.interceptors.response.use(
 
     if ((typeof (res.code) != "undefined" && res.code != 200) || (typeof (res.status) != "undefined" && res.status != true)) {
 
-      if (typeof (res.code) != "undefined" && res.code != 403) {
+      if (typeof (res.code) != "undefined" && res.code != 401) {
         //开发环境
         // Message({
         //   message: res.code + ' : ' + res.message,
@@ -53,16 +53,18 @@ service.interceptors.response.use(
           duration: 5 * 1000
         })
       }
+      console.log(res)
 
-      if (typeof (res.status) !== "undefined" && res.status !== true) {
+      if (typeof (res.status) !== 'undefined' && res.status !== true) {
         Message({
-          message: message,
+          message: res.message,
           type: 'error',
           duration: 5 * 1000
         })
       }
       // 403:Token过期 或 权限不足(恶意访问/被封禁) ;
-      if (res.code === 403) {
+      if (res.code === 401) {
+        console.log(res.code)
         store.commit('logout');
         MessageBox.confirm('你已被登出，点击确定返回首页', '状态异常', {
           confirmButtonText: '确 定',
