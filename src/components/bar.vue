@@ -46,7 +46,7 @@
           </el-menu-item>
           <el-menu-item>&nbsp;&nbsp;&nbsp;
             <i class="el-icon-loading"></i>
-            <a href="http://localhost:8084" target="_blank" style="text-decoration:none;color:#5b5e5b">管理后台</a>
+            <a href="http://180.163.101.78:8004/" target="_blank" style="text-decoration:none;color:#5b5e5b">管理后台</a>
           </el-menu-item>
           <el-menu-item @click="logout">&nbsp;&nbsp;&nbsp;
             <i class="el-icon-switch-button" style="color: dodgerblue"/>退出登录
