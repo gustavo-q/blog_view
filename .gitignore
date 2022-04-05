@@ -20,3 +20,4 @@ blog-vue.iml
 .eslintignore
 .eslintrc.js
 .postcssrc.js
+blog_view/

@@ -53,6 +53,12 @@ export default {
       method: 'get'
     })
   },
+  getMyLove(page, showCount) {
+    return request({
+      url: '/blog/getMyLoveList/' + page + '/' + showCount,
+      method: 'get'
+    })
+  },
 
   getMyBlogByTag(page, showCount, tagId) {
     return request({

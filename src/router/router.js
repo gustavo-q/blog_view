@@ -10,6 +10,7 @@ import forgetPwd from '@/views/forgetPwd'
 import searchBlog from '@/views/searchBlog'
 import blog from '@/views/blog'
 import myBlog from '@/views/myBlog'
+import myLove from '@/views/myLove'
 import editBlog from '@/views/editBlog'
 import notfound from '@/views/notfound'
 
@@ -116,6 +117,11 @@ export default new Router({
       path: '/myBlog',
       name: 'myBlog',
       component: myBlog
+    },
+    {
+      path: '/myLove',
+      name: 'myLove',
+      component: myLove
     },
     {
       path: '/editBlog/:blogId',

@@ -6,12 +6,11 @@
 
 
     <div style="margin-top: 35px">
-      <p type="info" v-for="blog in hotBlog"  @click="router(blog.id)"
-               class="blogCss">
+      <p type="info" v-for="blog in hotBlog" @click="router(blog.id)"
+         class="blogCss">
         <el-icon class="el-icon-hot-water"/>
-        {{ blog.title }}
-
-        <span class="el-icon-view " style="float: right" >&nbsp;{{blog.views}}</span>
+        <span style="line-height: 23px">{{ blog.title }}</span>
+      <span class="el-icon-view " style="float: right;padding-top: 2px">&nbsp;{{ blog.views }}</span>
 
       </p>
 
@@ -58,7 +57,8 @@ export default {
 .blogCss {
   margin-top: 10px;
   font-size: 16px;
+
   color: #32362f;
-  line-height: 5px;
+  line-height: 7px;
 }
 </style>

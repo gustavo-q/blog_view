@@ -1,5 +1,5 @@
 <template>
-  <div id="searchBlogList" v-loading="loading">
+  <el-card id="searchBlogList" v-loading="loading">
     <p style="display: none">{{searchTxt = this.$route.params.searchTxt}}</p>
     <el-card shadow="hover" v-if="blogList.length<=0" style="margin: 20% auto">暂无符合条件的内容</el-card>
     <div>
@@ -26,7 +26,7 @@
         @next-click="currentPage=currentPage+1">
       </el-pagination>
     </div>
-  </div>
+  </el-card>
 </template>
 <script>
   import blogOverView from '@/components/blogOverView'
@@ -79,7 +79,9 @@
 </script>
 <style scoped>
   #searchBlogList {
+    margin: auto;
+    padding: 20px;
+    width: 40%;
     text-align: center;
-    margin: -13px 5% 0 5%;
   }
 </style>

@@ -37,15 +37,19 @@
           <template slot="title"><span v-text="getName">[&nbsp;&nbsp;{{ a }}&nbsp;&nbsp;]</span></template>
 
           <el-menu-item route="/myBlog" index="4-3">&nbsp;&nbsp;&nbsp;
-            <i class="el-icon-s-home"></i>
+            <i class="el-icon-s-home" style="color: #b797d9"></i>
             我的博客
+          </el-menu-item>
+          <el-menu-item route="/myLove" index="4-4">&nbsp;&nbsp;&nbsp;
+            <img src="../assets/icon/love.png" id="iconImg"/>
+            &nbsp;&nbsp;你的喜欢
           </el-menu-item>
           <el-menu-item>&nbsp;&nbsp;&nbsp;
             <i class="el-icon-loading"></i>
-            <a href="http://localhost:8081" target="_blank" style="text-decoration:none;color:#5b5e5b">管理后台</a>
+            <a href="http://localhost:8084" target="_blank" style="text-decoration:none;color:#5b5e5b">管理后台</a>
           </el-menu-item>
           <el-menu-item @click="logout">&nbsp;&nbsp;&nbsp;
-            <i class="el-icon-switch-button"/>退出登录
+            <i class="el-icon-switch-button" style="color: dodgerblue"/>退出登录
           </el-menu-item>
         </el-submenu>
 
@@ -323,6 +327,11 @@ export default {
     position: relative;
     top: -3px;
   }
+
+#iconImg{
+  width: 22px;
+  height: 22px;
+}
 
 /*#space {*/
 /*  margin: 0 21% 0 20%;*/
