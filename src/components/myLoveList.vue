@@ -1,6 +1,5 @@
 <template>
   <div id="myBlogList">
-    <p style="display: none">{{ tagId = this.$route.params.tagId }}</p>
     <div v-for="blog in blogList">
       <blogOverView :id="blog.id" :title="blog.title" :body="blog.content" :time="getTime(blog.time)"
                     :blogViews="blog.blogViews"
@@ -8,7 +7,7 @@
                     :name="blog.userName"/>
     </div>
 
-    <el-card class="box-card" style="margin: 20% " v-if="blogList.length <= 0">
+    <el-card class="box-card" style="margin: 20% " v-if="blogList==null">
       <div >
         还没有点赞的博客哦！
       </div>
@@ -47,10 +46,8 @@
         tagId: 0,
       }
     },
-    watch: {
-      tagId() {//在此调用接口
-        this.loadBlogByTag();
-      }
+    created() {
+      this.loadBlog()
     },
     methods: {
       getTime(time) {//将时间戳转化为几分钟前，几小时前
@@ -69,21 +66,14 @@
         scrollTo(0, 0);
       },
 
-      loadBlogByTag() { //加载数据
+      loadBlog() { //加载数据
         this.blogList=[]
-        if (this.tagId===undefined){
           blog.getMyLove(this.currentPage, this.pageSize).then(responese => {
             this.total = responese.totalCount;
             this.blogList = responese.data;
           });
           console.log(this.blogList)
-        }else {
-        blog.getMyBlogByTag(this.currentPage, this.pageSize,this.tagId).then(responese => {
-          this.total = responese.totalCount;
-          this.blogList = responese.data;
-        });
-        console.log(this.blogList)
-        }
+
       }
     }
   }

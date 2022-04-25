@@ -46,8 +46,8 @@
         <span v-if="userReward==='0'">&nbsp;&nbsp;&nbsp;该文章不支持赞赏</span>
         <el-button type="text" slot="reference" icon="el-icon-trophy" round>写的不错，打赏一个</el-button>
       </el-popover>
-      <el-button type="text" :class="[like==0?'el-tyson-good':'el-tyson-good-fill']" @click="likeThis">
-        &nbsp;{{ this.like == 0 ? '点赞' : '已赞' }}&nbsp;{{ likeCount }}
+      <el-button type="text" :class="[this.like===0?'el-icon-star-off':'el-icon-star-on']" @click="likeThis">
+        &nbsp;{{ this.like === 0 ? '点赞' : '已赞' }}&nbsp;{{ likeCount }}
       </el-button>
     </div>
 
@@ -419,8 +419,8 @@ export default {
     },
     likeThis() {
       if (this.isLogin()) {
-        userLike.saveUserLike(this.blogId, this.like == 0 ? 1 : 0).then(res => {
-          this.like = this.like == 0 ? 1 : 0;
+        userLike.saveUserLike(this.blogId, this.like === 0 ? 1 : 0).then(res => {
+          this.like = this.like === 0 ? 1 : 0;
           userLike.getBlogLikeCount(this.blogId).then(res => {
             this.likeCount = res.data;
           });
